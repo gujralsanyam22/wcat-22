@@ -3,7 +3,7 @@
 const fs=require("fs");
 let arguments=process.argv.slice(2);
 
-console.log("arguments",arguments)
+// console.log("arguments",arguments)
 let flags=[];
 let filenames=[];
 let secondaryArguments=[];
@@ -20,9 +20,9 @@ for(let i of arguments){
         filenames.push(i);
     }
 }
-console.log("flags",flags);
-console.log("filename",filenames)
-console.log("secondArg",secondaryArguments)
+// console.log("flags",flags);
+// console.log("filename",filenames)
+// console.log("secondArg",secondaryArguments)
 
 // if(flags.length==0){
 //     for(let file of filenames){
@@ -41,14 +41,17 @@ console.log("secondArg",secondaryArguments)
 
 for(let file of filenames){
     let filedata=fs.readFileSync(file,"utf-8");
+    // console.log(filedata,"####");
     for(let flag of flags){
         if(flag=="-rs"){// space are removed
             filedata=removeAll(filedata," ");
         //   filedata=  filedata.split(" ").join("");//does same work as removeall
         }
         if(flag=="-rn"){// enter are removed
-            filedata=removeAll(filedata,"\n");
+            filedata=removeAll(filedata,"\r\n");
             // filedata=filedata.split("\n").join("");//does same work as removeall
+            // console.log("\n");
+            // console.log(filedata,"**");
         }
         if(flag=="-rsc"){// special characters are removed
             // let tempstring="";
@@ -58,47 +61,50 @@ for(let file of filenames){
             //     }
             // }
             // filedata=tempstring;
-            console.log(secondaryArguments);
+            console.log("HI");
             for(let secondaryargument of secondaryArguments){
                 // console.log("filedata",filedata)
                 filedata=removeAll(filedata,secondaryargument);
             }
         }
         if(flag=="-s"){
-           let data= addsequence(filedata);
-           console.log(data);
-        }
+            // console.log(filedata);
+            // console.log("***");
+            filedata= addsequence(filedata);
+        //    console.log(filedata);
+         }
         if(flag=="-sn"){
-            let data=addsequenceTnel(filedata);
-            console.log(data);
+             filedata=addsequenceTnel(filedata);
+            //  console.log(data);
         }
         if(flag=="-rel"){
             let data=removeextraline(filedata);
             for(let i=0;i<data.length;i++){
-            console.log(data[i]);
+            // console.log(data[i]);
             }
         }
     }
-    // console.log(filedata);
+    console.log(filedata);
 }
 
 function removeAll(string,removaldata){
-    console.log(string.split(removaldata).join(""));
-    // console.log(string);
-    
+  console.log(string.split(removaldata));
+     console.log(string,"***");
+    // console.log(removaldata);
     return string.split(removaldata).join("");
 }
 
 function addsequence(content){ //to add a sequence to lines eg: 1 abc,\n 2 blank line,\n 3 xyz
-    let contentArr=content.split("\n");
+    let contentArr=content.split("\r\n");
+    // console.log(contentArr);
     for(let i=0;i<contentArr.length;i++){
         contentArr[i]=(i+1)+" "+contentArr[i];
     }
-    return contentArr;
+    return contentArr.join("\n");
 }
 
 function addsequenceTnel(content){//to add a sequence to nonempty lines eg: 1 abc,\n  blank line,\n 2 xyz
-    let contentArr=content.split("\n");
+    let contentArr=content.split("\r\n");
     let count=1;
     for(let i=0;i<contentArr.length;i++){
         if(contentArr[i]!=""){
@@ -106,7 +112,7 @@ function addsequenceTnel(content){//to add a sequence to nonempty lines eg: 1 ab
         count++;
         }
     }
-    return contentArr;
+    return contentArr.join("\n");
 }
 
 // function removeblankline(content){
@@ -122,7 +128,7 @@ function addsequenceTnel(content){//to add a sequence to nonempty lines eg: 1 ab
 // }
 
 function removeextraline(fileData){
-    let contentArr=fileData.split("\n");
+    let contentArr=fileData.split("\r\n");
     let data=[];
     for(let i=1;i<contentArr.length;i++){
         if(contentArr[i]=="" && contentArr[i-1]==""){
