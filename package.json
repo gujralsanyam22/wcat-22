@@ -1,0 +1,26 @@
+{
+  "name": "wcat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {},
+  "bin": {
+    "wcat": "wcat.js"
+  },
+  "scripts": {
+    "wcat": "node wcat.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gujralsanyam22/wcat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gujralsanyam22/wcat/issues"
+  },
+  "homepage": "https://github.com/gujralsanyam22/wcat#readme",
+  "description": ""
+}
